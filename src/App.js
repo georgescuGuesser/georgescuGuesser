@@ -39,8 +39,9 @@ const App = () => {
   useEffect(() => {
     const fetchQuotes = async () => {
       try {
-        const realQuotesResponse = await fetch("/georgescu.json");
-        const satireQuotesResponse = await fetch("/bad.json");
+        const realQuotesResponse = await fetch(`${process.env.PUBLIC_URL}/georgescu.json`);
+        const satireQuotesResponse = await fetch(`${process.env.PUBLIC_URL}/bad.json`);
+
         const realQuotes = await realQuotesResponse.json();
         const satireQuotes = await satireQuotesResponse.json();
 
