@@ -1,0 +1,278 @@
+@import url('https://fonts.googleapis.com/css2?family=Carter+One&display=swap');
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: black;
+    margin-bottom: 20px;
+    margin-top: -25px;
+    font-family: 'Carter One', sans-serif;
+    font-weight: bold;
+    line-height: 1.4;
+    font-size: 3.5rem;
+  }
+  
+  .image-container {
+    position: relative;
+    width: 100%;
+    height: 45%;
+    overflow: hidden;
+  }
+  
+  .background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+  }
+  
+  .quote-text {
+    position: absolute;
+    bottom: 1.5%;
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    border: #333;
+    text-align: center;
+    /* font-family: 'Carter One', sans-serif;  */
+  }
+  
+  .score-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 20px 0;
+    font-size: 1.2rem;
+    color: black;
+  }
+  
+  .score {
+    text-align: left;
+    padding-left: 15%;
+    font-family: 'Carter One', sans-serif;
+    font-weight: bold;
+    line-height: 1.4;
+    font-size: 1.8rem;
+    
+  }
+  
+  .high-score {
+    text-align: right;
+    padding-right: 15%;
+    font-family: 'Carter One', sans-serif;
+    font-weight: bold;
+    line-height: 1.4;
+    font-size: 1.8rem;
+  }
+  
+  .feedback {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 20px 0;
+    text-align: center;
+  }
+  
+  .buttons-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row; /* Ensure buttons remain in a single row */
+    gap: 200px;
+  }
+  
+  .button {
+    width: 100px;
+    height: 50px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .no-button {
+    background-color: #ff4d4d;
+    color: white;
+  }
+  
+  .yes-button {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .button:hover {
+    filter: brightness(0.9);
+  }
+
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    font-family: 'Carter One', sans-serif;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 80%;
+    max-width: 400px;
+  }
+  
+  .sad-image {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .popup-message {
+    font-size: 2.5rem;
+    font-weight: bold;
+    font-family: 'Carter One', sans-serif;
+    color: red;
+    margin-bottom: 10px;
+  }
+  
+  .popup-score,
+  .popup-highscore {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  
+  .popup-link a {
+    font-size: 1rem;
+    color: blue;
+    text-decoration: underline;
+  }
+  
+  .close-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .close-button:hover {
+    background-color: darkred;
+  }
+  
+  .correct-feedback {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 255, 0, 0.8);
+    color: white;
+    padding: 10px 20px;
+    font-size: 4rem;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: fade-out 1s forwards;
+  }
+
+  .wrong-feedback {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+    padding: 10px 20px;
+    font-size: 4rem;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: fade-out 1s forwards;
+  }
+
+  .wrong-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .wrong-x {
+    color: red;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 768px) { /* Smaller screens */
+    .main-container {
+      width: 95%;
+      height: 95%;
+      align-content: center;
+      margin: 0;
+      border-radius: 0; /* Optional: Remove border radius for edge-to-edge layout */
+      box-shadow: none; /* Optional: Remove shadow for a cleaner look on mobile */
+    }
+
+    .buttons-container {
+        display: flex;
+        justify-content: center;
+        flex-direction: row; /* Ensure buttons remain in a single row */
+        gap: 30px;
+    }
+      
+    .button {
+        width: 30%; /* Reduce width for smaller screens */
+        height: 40px; /* Reduce height to maintain aspect ratio */
+        font-size: 1rem; /* Adjust font size for smaller buttons */
+        
+    }
+
+    .background-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 10px;
+    }
+  }
