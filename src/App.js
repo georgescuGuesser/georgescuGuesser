@@ -68,7 +68,12 @@ const App = () => {
         const realQuotes = await realQuotesResponse.json();
         const satireQuotes = await satireQuotesResponse.json();
 
-        setQuotes(realQuotes.map((item) => item.title)); 
+        setQuotes(realQuotes.map((item) => 
+        ({
+          title: item.title,
+          link: item.source,
+        })
+        )); 
         setSatireArticles(
           satireQuotes.map((item) => ({
             title: item.title,
@@ -98,9 +103,11 @@ const App = () => {
 
     let item;
     if (isQuote && quotes.length > 0) {
+      let element = Math.floor(Math.random() * quotes.length);
       item = {
         type: "quote",
-        content: quotes[Math.floor(Math.random() * quotes.length)],
+        content: quotes[element].title,
+        link: quotes[element].link,
       };
       setLastSource("quote"); // Set source for a real quote
     } else if (satireArticles.length > 0) {
@@ -144,7 +151,7 @@ const App = () => {
             <img src={backgroundImage} alt="Background" className="background-image"/>
             </div>
             <div className="start-text1">
-                A spus Georgescu acest lucru? Sau Times New Roman? Sau Putin? 
+                A spus Georgescu întradevăr acest lucru?<br/>Sau E doar un articol din Times New Roman? 
             </div>
             <div className="start-text2">
                 Ai 3 încercări!
@@ -237,17 +244,18 @@ const App = () => {
 
       <div className="source-container">
         {previousSource && (
-            previousSource === "quote" ? (
-            <span>Sursa: Persoana</span>
-            ) : (
-            <span>
-                Sursa: {previousLink ? (
-                <a href={previousLink} target="_blank" rel="noopener noreferrer">Persoana</a>
-                ) : (
-                "Persoana bad"
-                )}
-            </span>
-            )
+            
+            (
+              <span>
+                  Sursa anterioară: {previousLink ? (
+                  <a href={previousLink} target="_blank" rel="noopener noreferrer">link</a>
+                  ) : (
+                  "not found :("
+                  )}
+              </span>
+              )
+            
+            
         )}
         </div>
 
@@ -298,7 +306,7 @@ const App = () => {
                             : "Cetățean din Schengen"}</div>
             {wrongData.link && (
               <div className="popup-link">
-                Sursa citat anterior: <a href={wrongData.link} target="_blank" rel="noopener noreferrer">Persoana</a>
+                Sursa citat anterior: <a href={wrongData.link} target="_blank" rel="noopener noreferrer">link</a>
               </div>
             )}
             <button className="retry-button" onClick={closePopup}>Mai încearcă</button>

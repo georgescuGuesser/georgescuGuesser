@@ -296,34 +296,33 @@ body{
 
   @media (max-width: 768px) { /* Smaller screens */
     .main-container {
-
-      width: 95%;
-      height: 95%;
-      align-content: center;
-      margin: 0;
-      border-radius: 0; /* Optional: Remove border radius for edge-to-edge layout */
-      box-shadow: none; /* Optional: Remove shadow for a cleaner look on mobile */
+      width: 100%; /* Ensure it takes the full screen width */
+      height: auto; /* Adjust height as needed */
+      margin: 0; 
+      padding: 10px; /* Optional: Add padding if needed */
+      border-radius: 10px; /* Optional: You can keep or remove border-radius */
+      box-shadow: none; /* Remove box shadow for a cleaner look on mobile */
+      overflow: hidden; /* Prevent overflow */
     }
-
+  
     .buttons-container {
-        display: flex;
-        justify-content: center;
-        flex-direction: row; /* Ensure buttons remain in a single row */
-        gap: 30px;
+      display: flex;
+      justify-content: center;
+      flex-direction: row; /* Ensure buttons remain in a single row */
+      gap: 30px;
     }
-      
+  
     .button {
-        width: 30%; /* Reduce width for smaller screens */
-        height: 40px; /* Reduce height to maintain aspect ratio */
-        font-size: 1rem; /* Adjust font size for smaller buttons */
-        
+      width: 30%; /* Reduce width for smaller screens */
+      height: 40px; /* Reduce height to maintain aspect ratio */
+      font-size: 1rem; /* Adjust font size for smaller buttons */
     }
-
+  
     .background-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-        border-radius: 10px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 10px;
     }
   }

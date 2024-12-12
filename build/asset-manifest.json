@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/georgescuGuesser/static/css/main.eddcff8d.css",
-    "main.js": "/georgescuGuesser/static/js/main.1321fc5d.js",
-    "index.html": "/georgescuGuesser/index.html",
-    "main.eddcff8d.css.map": "/georgescuGuesser/static/css/main.eddcff8d.css.map",
-    "main.1321fc5d.js.map": "/georgescuGuesser/static/js/main.1321fc5d.js.map"
+    "main.css": "/static/css/main.103e6c55.css",
+    "main.js": "/static/js/main.223fdade.js",
+    "index.html": "/index.html",
+    "main.103e6c55.css.map": "/static/css/main.103e6c55.css.map",
+    "main.223fdade.js.map": "/static/js/main.223fdade.js.map"
   },
   "entrypoints": [
-    "static/css/main.eddcff8d.css",
-    "static/js/main.1321fc5d.js"
+    "static/css/main.103e6c55.css",
+    "static/js/main.223fdade.js"
   ]
 }
