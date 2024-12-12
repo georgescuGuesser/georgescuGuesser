@@ -1,9 +1,12 @@
-// Aranjaza PC
-// Arata link citate gresite la final          
+// Arata sursa undeva in jos dupa fiecare           IN PRGORES
 // Pe mobile e prea la dreapta
+// Aranjeaza mobile
+// Citate verifica (mai ales ala cu divinitati)
 
 import React, { useState, useEffect } from "react";
 import "./App.css";
+
+let rank;
 
 const backgroundImages = [
   "CG1 crop.jpg",  // 1068x712
@@ -22,6 +25,7 @@ const backgroundImages = [
 const App = () => {
   const [randomItem, setRandomItem] = useState(null);
   const [backgroundImage, setBackgroundImage] = useState("");
+  const [previousImageIndex, setPreviousImageIndex] = useState(null);
   const [feedback, setFeedback] = useState("");
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
@@ -31,10 +35,29 @@ const App = () => {
   const [showWrong, setShowWrong] = useState(false);
   const [wrongCount, setWrongCount] = useState(0);
   const [wrongGuesses, setWrongGuesses] = useState([]);
-
+  const [buttonsDisabled, setButtonsDisabled] = useState(false);
   const [quotes, setQuotes] = useState([]);
   const [satireArticles, setSatireArticles] = useState([]);
+  const [isStartPage, setIsStartPage] = useState(true);
+  const [lastSource, setLastSource] = useState(null); // Track the last source
+  const [previousSource, setPreviousSource] = useState(null); // Track the previous source for the quote
+  const [previousLink, setPreviousLink] = useState(null); // New state for storing the previous link
 
+
+  const getRandomBackgroundImage = () => {
+    let randomIndex;
+    do {
+      randomIndex = Math.floor(Math.random() * backgroundImages.length);
+    } while (randomIndex === previousImageIndex); // Ensure it's different from the previous index
+
+    setPreviousImageIndex(randomIndex); // Update the previous index
+    return `images/calinhappy/${backgroundImages[randomIndex]}`;
+  };
+
+  useEffect(() => {
+    setBackgroundImage(getRandomBackgroundImage());
+  }, []);
+  
   // Fetch the JSON data
   useEffect(() => {
     const fetchQuotes = async () => {
@@ -45,12 +68,11 @@ const App = () => {
         const realQuotes = await realQuotesResponse.json();
         const satireQuotes = await satireQuotesResponse.json();
 
-        // Update state
-        setQuotes(realQuotes.map((item) => item.title)); // Extract the "title" field for real quotes
+        setQuotes(realQuotes.map((item) => item.title)); 
         setSatireArticles(
           satireQuotes.map((item) => ({
             title: item.title,
-            link: item.source, // Use "source" as the link
+            link: item.source,
           }))
         );
       } catch (error) {
@@ -62,64 +84,115 @@ const App = () => {
   }, []);
 
   const getRandomItem = () => {
-    const isQuote = Math.random() < 0.5;
+    const isQuoteSource = lastSource === "quote";
+    const isArticleSource = lastSource === "article";
+
+    let isQuote;
+    if (isQuoteSource) {
+      isQuote = false; 
+    } else if (isArticleSource) {
+      isQuote = true; 
+    } else {
+      isQuote = Math.random() < 0.5; 
+    }
+
+    let item;
     if (isQuote && quotes.length > 0) {
-      return {
+      item = {
         type: "quote",
         content: quotes[Math.floor(Math.random() * quotes.length)],
       };
+      setLastSource("quote"); // Set source for a real quote
     } else if (satireArticles.length > 0) {
-      const article =
-        satireArticles[Math.floor(Math.random() * satireArticles.length)];
-      return {
+      const article = satireArticles[Math.floor(Math.random() * satireArticles.length)];
+      item = {
         type: "article",
         content: article.title,
         link: article.link,
       };
+      setLastSource("article"); // Set source for an article
     }
-    return null; // Fallback if arrays are empty
-  };
 
-  const getRandomBackgroundImage = () => {
-    const randomIndex = Math.floor(Math.random() * backgroundImages.length);
-    return `images/calinhappy/${backgroundImages[randomIndex]}`;
+    return item || null; 
   };
 
   useEffect(() => {
     setRandomItem(getRandomItem());
     setBackgroundImage(getRandomBackgroundImage());
-  }, [quotes, satireArticles]); // Ensure it updates after data fetch
+  }, [quotes, satireArticles]); 
+
+  useEffect(() => {
+    if (randomItem) {
+      if (randomItem.type === "quote") {
+        setPreviousLink(randomItem.link); // No link for quotes
+      } else if (randomItem.type === "article") {
+        setPreviousLink(randomItem.link); // Store the link if it's an article
+      }
+    }
+  }, [randomItem]);
+
+  const startGame = () => {
+    setIsStartPage(false); 
+  };
+
+  if (isStartPage) {
+    return (
+        <div className="main-container">
+            <div className="title">Călin Or Not?</div>
+  
+            <div className="image-container">
+            <img src={backgroundImage} alt="Background" className="background-image"/>
+            </div>
+            <div className="start-text1">
+                A spus Georgescu acest lucru? Sau Times New Roman? Sau Putin? 
+            </div>
+            <div className="start-text2">
+                Ai 3 încercări!
+            </div>
+            <button className="start-button" onClick={startGame}>Start</button>
+      </div>
+    );
+  }
 
   const handleButtonClick = (choice) => {
-    if (!randomItem) return;
-
+    if (buttonsDisabled || !randomItem) return;
+  
+    setButtonsDisabled(true);
+  
     let isCorrect = false;
+    setPreviousLink(randomItem.link);
+    console.log("S-a setat", randomItem.link, previousLink)
 
     if (choice === "yes") {
       isCorrect = randomItem.type === "quote";
     } else if (choice === "no") {
       isCorrect = randomItem.type === "article";
     }
-
+  
     if (isCorrect) {
       setScore((prevScore) => prevScore + 1);
       setShowCorrect(true);
-
+  
       setTimeout(() => {
         setShowCorrect(false);
       }, 1500);
     } else {
       setWrongCount((prevCount) => prevCount + 1);
       setWrongGuesses((prevGuesses) => [...prevGuesses, "X"]);
-
+  
       if (wrongCount === 2) {
         setHighScore((prevHighScore) => Math.max(prevHighScore, score));
+  
+        // Correctly set the link based on whether it was a quote or article
+        const link = randomItem.type === "article" ? randomItem.link : null;
+  
         setWrongData({
           message: "Ai pierdut!",
           score,
           highScore: Math.max(highScore, score),
-          link: randomItem.type === "article" ? randomItem.link : null,
+          link: link,
         });
+  
         setShowPopup(true);
         setScore(0);
         setWrongCount(0);
@@ -131,11 +204,13 @@ const App = () => {
         }, 1500);
       }
     }
-
+  
     setTimeout(() => {
       setFeedback("");
+      setPreviousSource(lastSource); // Save the current source for the previous quote
       setRandomItem(getRandomItem());
-      setBackgroundImage(getRandomBackgroundImage()); // Update background image
+      setBackgroundImage(getRandomBackgroundImage()); 
+      setButtonsDisabled(false);
     }, 500);
   };
 
@@ -160,6 +235,22 @@ const App = () => {
         </div>
       </div>
 
+      <div className="source-container">
+        {previousSource && (
+            previousSource === "quote" ? (
+            <span>Sursa: Persoana</span>
+            ) : (
+            <span>
+                Sursa: {previousLink ? (
+                <a href={previousLink} target="_blank" rel="noopener noreferrer">Persoana</a>
+                ) : (
+                "Persoana bad"
+                )}
+            </span>
+            )
+        )}
+        </div>
+
       <div className="score-container">
         <div className="score">Scor: {score}</div>
         <div className="wrong-indicator">
@@ -173,7 +264,6 @@ const App = () => {
       </div>
 
       {feedback && <div className="feedback">{feedback}</div>}
-
       {showCorrect && <div className="correct-feedback">Corect!</div>}
       {showWrong && <div className="wrong-feedback">Greșit!</div>}
 
@@ -195,27 +285,23 @@ const App = () => {
       {showPopup && wrongData && (
         <div className="popup-overlay" onClick={closePopup}>
           <div className="popup-content" onClick={(e) => e.stopPropagation()}>
-            <img
-              src="images/calinsad/CG sad.jpg"
-              alt="Sad Calin"
-              className="sad-image"
-            />
+            <img src="images/calinsad/CG sad.jpg" alt="Sad Calin" className="sad-image"/>
             <div className="popup-message">{wrongData.message}</div>
             <div className="popup-score">Scor actual: {wrongData.score}</div>
-            <div className="popup-highscore">
-              Highscore: {wrongData.highScore}
-            </div>
+            <div className="popup-highscore">Highscore: {wrongData.highScore}</div>
+            <div className="rank">Rang: {wrongData.score >= 15 
+                    ? "Geto-Dac" 
+                    : wrongData.score >= 10 
+                        ? "Adept al apei divine" 
+                        : wrongData.score >= 5 
+                            ? "Agricultor" 
+                            : "Cetățean din Schengen"}</div>
             {wrongData.link && (
               <div className="popup-link">
-                
-                <a href={wrongData.link} target="_blank" rel="noopener noreferrer">
-                    Sursă citat  
-                </a>
+                Sursa citat anterior: <a href={wrongData.link} target="_blank" rel="noopener noreferrer">Persoana</a>
               </div>
             )}
-            <button className="close-button" onClick={closePopup}>
-              Mai încearcă
-            </button>
+            <button className="retry-button" onClick={closePopup}>Mai încearcă</button>
           </div>
         </div>
       )}
