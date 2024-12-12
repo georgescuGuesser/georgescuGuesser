@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Carter+One&display=swap');
 
+body{
+    background-color: whitesmoke;
+}
+
 .main-container {
+    background-color:#333;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -74,7 +79,6 @@
     font-weight: bold;
     line-height: 1.4;
     font-size: 1.8rem;
-    
   }
   
   .high-score {
@@ -86,6 +90,13 @@
     font-size: 1.8rem;
   }
   
+  .additional-text {
+    text-align: center; /* Center-align text */
+    margin: 10px 0; /* Add spacing around the text */
+    font-size: 1.2em; /* Adjust font size */
+    color: #333; /* Adjust color for visibility */
+  }
+
   .feedback {
     font-size: 1.5rem;
     color: #333;
@@ -176,18 +187,57 @@
     text-decoration: underline;
   }
   
-  .close-button {
+  .retry-button {
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: red;
+    font-size: 24px;
+    background-color: green;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: all 0.3s ease;
   }
-  
-  .close-button:hover {
-    background-color: darkred;
+
+  .retry-button:hover {
+    background-color: darkgreen;
+    transform: scale(1.1);
+  }
+
+  .start-button {
+    margin-top: 20px;
+    padding: 20px 40px; 
+    font-size: 24px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+  .start-button:hover{
+    background-color: darkgreen;
+    transform: scale(1.1);
+  }
+
+  .start-text1{
+    padding-top: 3.5%;
+    text-align: center;
+    font-family: 'Carter One', sans-serif;
+    font-weight: bold;
+    line-height: 1.4;
+    font-size: 1.8rem;
+  }
+
+  .start-text2{
+    padding-top: 0.5%;
+    padding-bottom: 1%;
+    text-align: center;
+    font-family: 'Carter One', sans-serif;
+    font-weight: bold;
+    line-height: 1.4;
+    font-size: 1.8rem;
   }
   
   .correct-feedback {
@@ -246,6 +296,7 @@
 
   @media (max-width: 768px) { /* Smaller screens */
     .main-container {
+
       width: 95%;
       height: 95%;
       align-content: center;
