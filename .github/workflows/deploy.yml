@@ -24,7 +24,7 @@ jobs:
     - name: Build and deploy
       env:
         CI: false
-      run: 
+      run: |
             git config --global user.name "github-actions[bot]"
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
             npm run deploy
