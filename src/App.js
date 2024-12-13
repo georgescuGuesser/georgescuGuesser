@@ -1,3 +1,5 @@
+// cum vezi cati oameni au intra pe sait
+
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
@@ -165,38 +167,20 @@ const App = () => {
 
   if (isStartPage) {
     return (
-      <><script async src="https://www.googletagmanager.com/gtag/js?id=G-G7Q1M14689"></script><script>
-      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6877685425329813" crossorigin="anonymous"></script>
-      <ins class="adsbygoogle"
-      style="display:block"
-      data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-      data-ad-slot="YYYYYYYYYY"
-      data-ad-format="auto"
-      data-full-width-responsive="true"></ins>
-      <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments)};
-        gtag('js', new Date());
-
-        gtag('config', 'G-G7Q1M14689');
-      </script>
-      
-      <div className="main-container">
-          <div className="title">Călin Or Not?</div>
-
-          <div className="image-container">
-            <img src={backgroundImage} alt="Background" className="background-image" />
-          </div>
-          <div className="start-text1">
-            Chiar a spus Georgescu acest lucru?<br />Sau e doar un articol din Times New Roman?
-          </div>
-          <div className="start-text2">
-            Ghiceste! Ai 3 încercari!
-          </div>
-          <button className="start-button" onClick={startGame}>Start</button>
-        </div></>
+        <div className="main-container">
+            <div className="title">Călin Or Not?</div>
+  
+            <div className="image-container">
+            <img src={backgroundImage} alt="Background" className="background-image"/>
+            </div>
+            <div className="start-text1">
+                Chiar a spus Georgescu acest lucru?<br/>Sau e doar un articol din Times New Roman? 
+            </div>
+            <div className="start-text2">
+                Ghiceste! Ai 3 încercari!
+            </div>
+            <button className="start-button" onClick={startGame}>Start</button>
+      </div>
     );
   }
 
