@@ -10,7 +10,7 @@ const backgroundImages = [
   "CG3 crop.jpg",  // 800x533
   "CG4 crop.jpg",  // 1024x576
   "CG5 crop.jpg",  // 1600x900
-  "CG6 crop.jpg",  // 2480x1653
+  "CG6 crop.jpg",  // 2480x1653 
   "CG7 crop.jpg",  // 1119x630
   "CG8 crop.jpg",  // 1200x573
   "CG9 crop.jpg",  // 1771x906
