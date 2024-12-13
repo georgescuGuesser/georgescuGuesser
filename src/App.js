@@ -1,5 +1,3 @@
-// cum vezi cati oameni au intra pe sait
-
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
@@ -168,6 +166,16 @@ const App = () => {
   if (isStartPage) {
     return (
       <><script async src="https://www.googletagmanager.com/gtag/js?id=G-G7Q1M14689"></script><script>
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6877685425329813" crossorigin="anonymous"></script>
+      <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+      data-ad-slot="YYYYYYYYYY"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+      <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments)};
         gtag('js', new Date());
