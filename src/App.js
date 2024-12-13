@@ -1,12 +1,8 @@
-// Arata sursa undeva in jos dupa fiecare           IN PRGORES
 // Pe mobile e prea la dreapta
 // Aranjeaza mobile
-// Citate verifica (mai ales ala cu divinitati)
 
 import React, { useState, useEffect } from "react";
 import "./App.css";
-
-let rank;
 
 const backgroundImages = [
   "CG1 crop.jpg",  // 1068x712
@@ -42,6 +38,7 @@ const App = () => {
   const [lastSource, setLastSource] = useState(null); // Track the last source
   const [previousSource, setPreviousSource] = useState(null); // Track the previous source for the quote
   const [previousLink, setPreviousLink] = useState(null); // New state for storing the previous link
+  const [previousPerson, setPreviousPerson] = useState(null);
 
 
   const getRandomBackgroundImage = () => {
@@ -72,12 +69,14 @@ const App = () => {
         ({
           title: item.title,
           link: item.source,
+          by: item.by,
         })
         )); 
         setSatireArticles(
           satireQuotes.map((item) => ({
             title: item.title,
             link: item.source,
+            by: item.by,
           }))
         );
       } catch (error) {
@@ -108,6 +107,7 @@ const App = () => {
         type: "quote",
         content: quotes[element].title,
         link: quotes[element].link,
+        by: quotes[element].by,
       };
       setLastSource("quote"); // Set source for a real quote
     } else if (satireArticles.length > 0) {
@@ -116,6 +116,7 @@ const App = () => {
         type: "article",
         content: article.title,
         link: article.link,
+        by: article.by,
       };
       setLastSource("article"); // Set source for an article
     }
@@ -128,15 +129,7 @@ const App = () => {
     setBackgroundImage(getRandomBackgroundImage());
   }, [quotes, satireArticles]); 
 
-  useEffect(() => {
-    if (randomItem) {
-      if (randomItem.type === "quote") {
-        setPreviousLink(randomItem.link); // No link for quotes
-      } else if (randomItem.type === "article") {
-        setPreviousLink(randomItem.link); // Store the link if it's an article
-      }
-    }
-  }, [randomItem]);
+  
 
   const startGame = () => {
     setIsStartPage(false); 
@@ -151,10 +144,10 @@ const App = () => {
             <img src={backgroundImage} alt="Background" className="background-image"/>
             </div>
             <div className="start-text1">
-                A spus Georgescu întradevăr acest lucru?<br/>Sau E doar un articol din Times New Roman? 
+                Chiar a spus Georgescu acest lucru?<br/>Sau e doar un articol din Times New Roman? 
             </div>
             <div className="start-text2">
-                Ai 3 încercări!
+                Ghiceste! Ai 3 încercari!
             </div>
             <button className="start-button" onClick={startGame}>Start</button>
       </div>
@@ -167,9 +160,16 @@ const App = () => {
     setButtonsDisabled(true);
   
     let isCorrect = false;
-    setPreviousLink(randomItem.link);
-    console.log("S-a setat", randomItem.link, previousLink)
-
+  
+    // Save the current item's link before updating the state
+    const currentLink = randomItem.link; // Store the link of the current item
+    const currentPerson = randomItem.by; // Store the current item type (quote or article)
+  
+    // Set the link of the previous quote or article
+    setPreviousLink(currentLink);
+    setPreviousSource(lastSource);
+    setPreviousPerson(currentPerson);
+  
     if (choice === "yes") {
       isCorrect = randomItem.type === "quote";
     } else if (choice === "no") {
@@ -190,7 +190,6 @@ const App = () => {
       if (wrongCount === 2) {
         setHighScore((prevHighScore) => Math.max(prevHighScore, score));
   
-        // Correctly set the link based on whether it was a quote or article
         const link = randomItem.type === "article" ? randomItem.link : null;
   
         setWrongData({
@@ -214,12 +213,13 @@ const App = () => {
   
     setTimeout(() => {
       setFeedback("");
-      setPreviousSource(lastSource); // Save the current source for the previous quote
-      setRandomItem(getRandomItem());
-      setBackgroundImage(getRandomBackgroundImage()); 
+      setRandomItem(getRandomItem()); // Generate the new random item after saving the previous state
+      setBackgroundImage(getRandomBackgroundImage());
       setButtonsDisabled(false);
     }, 500);
   };
+  
+  
 
   const closePopup = () => {
     setShowPopup(false);
@@ -244,20 +244,15 @@ const App = () => {
 
       <div className="source-container">
         {previousSource && (
-            
-            (
-              <span>
-                  Sursa anterioară: {previousLink ? (
-                  <a href={previousLink} target="_blank" rel="noopener noreferrer">link</a>
-                  ) : (
-                  "not found :("
-                  )}
-              </span>
-              )
-            
-            
+          <span>
+            Sursa anterioara: {previousLink ? (
+              <a href={previousLink} target="_blank" rel="noopener noreferrer">{previousPerson}</a>
+            ) : (
+              "Not found :("
+            )}
+          </span>
         )}
-        </div>
+      </div>
 
       <div className="score-container">
         <div className="score">Scor: {score}</div>
@@ -304,11 +299,6 @@ const App = () => {
                         : wrongData.score >= 5 
                             ? "Agricultor" 
                             : "Cetățean din Schengen"}</div>
-            {wrongData.link && (
-              <div className="popup-link">
-                Sursa citat anterior: <a href={wrongData.link} target="_blank" rel="noopener noreferrer">link</a>
-              </div>
-            )}
             <button className="retry-button" onClick={closePopup}>Mai încearcă</button>
           </div>
         </div>
