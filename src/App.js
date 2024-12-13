@@ -1,6 +1,5 @@
-// Pe mobile e prea la dreapta
-// Aranjeaza mobile
- 
+// cum vezi cati oameni au intra pe sait
+
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
@@ -10,7 +9,7 @@ const backgroundImages = [
   "CG3 crop.jpg",  // 800x533
   "CG4 crop.jpg",  // 1024x576
   "CG5 crop.jpg",  // 1600x900
-  "CG6 crop.jpg",  // 2480x1653 
+  "CG6 crop.jpg",  // 2480x1653
   "CG7 crop.jpg",  // 1119x630
   "CG8 crop.jpg",  // 1200x573
   "CG9 crop.jpg",  // 1771x906
@@ -86,43 +85,74 @@ const App = () => {
 
     fetchQuotes();
   }, []);
-
+  
   const getRandomItem = () => {
-    const isQuoteSource = lastSource === "quote";
-    const isArticleSource = lastSource === "article";
-
-    let isQuote;
-    if (isQuoteSource) {
-      isQuote = false; 
-    } else if (isArticleSource) {
-      isQuote = true; 
-    } else {
-      isQuote = Math.random() < 0.5; 
-    }
-
+    const maxHistory = 3; // Keep track of the last 3 sources
+    const sourceHistory = []; // Store source history
+    let streakCount = 0; // Track the current streak of the same type
+    let lastSourceType = null; // Track the last source type for streak detection
+  
+    // Helper to pick a random item from an array
+    const pickRandom = (array) => array[Math.floor(Math.random() * array.length)];
+  
+    const chooseSourceType = () => {
+      const recentQuotes = sourceHistory.filter((source) => source === "quote").length;
+      const recentArticles = sourceHistory.filter((source) => source === "article").length;
+  
+      // Detect streaks
+      if (lastSourceType) {
+        streakCount = lastSourceType === sourceHistory[sourceHistory.length - 1] ? streakCount + 1 : 1;
+      }
+      lastSourceType = sourceHistory[sourceHistory.length - 1];
+  
+      // If streak is more than 3, force the other type
+      if (streakCount >= 3) {
+        return lastSourceType === "quote" ? "article" : "quote";
+      }
+  
+      // Otherwise, use weighted randomness
+      if (recentQuotes > recentArticles) {
+        return Math.random() < 0.7 ? "article" : "quote";
+      } else if (recentArticles > recentQuotes) {
+        return Math.random() < 0.7 ? "quote" : "article";
+      } else {
+        return Math.random() < 0.5 ? "quote" : "article";
+      }
+    };
+  
+    const sourceType = chooseSourceType();
+  
     let item;
-    if (isQuote && quotes.length > 0) {
-      let element = Math.floor(Math.random() * quotes.length);
+    if (sourceType === "quote" && quotes.length > 0) {
+      const element = Math.floor(Math.random() * quotes.length);
       item = {
         type: "quote",
         content: quotes[element].title,
         link: quotes[element].link,
         by: quotes[element].by,
       };
-      setLastSource("quote"); // Set source for a real quote
     } else if (satireArticles.length > 0) {
-      const article = satireArticles[Math.floor(Math.random() * satireArticles.length)];
+      const article = pickRandom(satireArticles);
       item = {
         type: "article",
         content: article.title,
         link: article.link,
         by: article.by,
       };
-      setLastSource("article"); // Set source for an article
     }
-
-    return item || null; 
+  
+    if (item) {
+      // Update source history, keeping it within maxHistory
+      sourceHistory.push(item.type);
+      if (sourceHistory.length > maxHistory) {
+        sourceHistory.shift(); // Remove oldest source from history
+      }
+      setLastSource(item.type); // Update last source
+    }
+  
+    return item || null; // Fallback to null if no item is available
   };
+  
 
   useEffect(() => {
     setRandomItem(getRandomItem());
@@ -137,20 +167,28 @@ const App = () => {
 
   if (isStartPage) {
     return (
-        <div className="main-container">
-            <div className="title">Călin Or Not?</div>
-  
-            <div className="image-container">
-            <img src={backgroundImage} alt="Background" className="background-image"/>
-            </div>
-            <div className="start-text1">
-                Chiar a spus Georgescu acest lucru?<br/>Sau e doar un articol din Times New Roman? 
-            </div>
-            <div className="start-text2">
-                Ghiceste! Ai 3 încercari!
-            </div>
-            <button className="start-button" onClick={startGame}>Start</button>
-      </div>
+      <><script async src="https://www.googletagmanager.com/gtag/js?id=G-G7Q1M14689"></script><script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments)};
+        gtag('js', new Date());
+
+        gtag('config', 'G-G7Q1M14689');
+      </script>
+      
+      <div className="main-container">
+          <div className="title">Călin Or Not?</div>
+
+          <div className="image-container">
+            <img src={backgroundImage} alt="Background" className="background-image" />
+          </div>
+          <div className="start-text1">
+            Chiar a spus Georgescu acest lucru?<br />Sau e doar un articol din Times New Roman?
+          </div>
+          <div className="start-text2">
+            Ghiceste! Ai 3 încercari!
+          </div>
+          <button className="start-button" onClick={startGame}>Start</button>
+        </div></>
     );
   }
 
