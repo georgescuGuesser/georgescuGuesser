@@ -60,7 +60,6 @@ body{
     font-size: 1.5rem;
     border: #333;
     text-align: center;
-    /* font-family: 'Carter One', sans-serif;  */
   }
   
   .score-container {
@@ -70,6 +69,11 @@ body{
     margin: 20px 0;
     font-size: 1.2rem;
     color: black;
+  }
+
+  .source-container {
+    font-family: 'Carter One', sans-serif;
+
   }
   
   .score {
@@ -237,7 +241,7 @@ body{
     font-family: 'Carter One', sans-serif;
     font-weight: bold;
     line-height: 1.4;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
   
   .correct-feedback {
@@ -296,33 +300,85 @@ body{
 
   @media (max-width: 768px) { /* Smaller screens */
     .main-container {
-      width: 100%; /* Ensure it takes the full screen width */
-      height: auto; /* Adjust height as needed */
-      margin: 0; 
-      padding: 10px; /* Optional: Add padding if needed */
-      border-radius: 10px; /* Optional: You can keep or remove border-radius */
-      box-shadow: none; /* Remove box shadow for a cleaner look on mobile */
-      overflow: hidden; /* Prevent overflow */
+
+      width: 95%;
+      height: 95%;
+      align-content: center;
+      margin: 0;
+      border-radius: 0; /* Optional: Remove border radius for edge-to-edge layout */
+      box-shadow: none; /* Optional: Remove shadow for a cleaner look on mobile */
     }
-  
+
     .buttons-container {
-      display: flex;
-      justify-content: center;
-      flex-direction: row; /* Ensure buttons remain in a single row */
-      gap: 30px;
+        display: flex;
+        justify-content: center;
+        flex-direction: row; /* Ensure buttons remain in a single row */
+        gap: 30px;
     }
-  
+      
     .button {
-      width: 30%; /* Reduce width for smaller screens */
-      height: 40px; /* Reduce height to maintain aspect ratio */
-      font-size: 1rem; /* Adjust font size for smaller buttons */
+        width: 30%; /* Reduce width for smaller screens */
+        height: 40px; /* Reduce height to maintain aspect ratio */
+        font-size: 1.3rem; /* Adjust font size for smaller buttons */
+        padding-left: 40%;
+        padding-right: 40%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-  
+
     .background-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      border-radius: 10px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 10px;
+    }
+
+    .quote-text {
+      font-size: 1.1rem;
+      bottom: 0%;
+    }
+
+    .score {
+      text-align: left;
+      padding-left: 15%;
+      font-family: 'Carter One', sans-serif;
+      font-weight: bold;
+      line-height: 1.3;
+      font-size: 1rem;
+    }
+
+    .high-score {
+      text-align: right;
+      padding-right: 15%;
+      font-family: 'Carter One', sans-serif;
+      font-weight: bold;
+      line-height: 1.3;
+      font-size: 1rem;
+    }
+
+    .source-container {
+      padding-top: 1%;
+      font-size: 0.8rem;
+    }
+
+    .wrong-x {
+      font-size: 0.9rem;
+    }
+
+    .title{
+      padding-top: 3%;
+      font-size: 2rem;
+    }
+
+    .start-text1 {
+      font-size: 1.4rem;
+    }
+
+    .start-text2 {
+      padding-top: 3%;
+      font-size: 1.1rem;
     }
   }
